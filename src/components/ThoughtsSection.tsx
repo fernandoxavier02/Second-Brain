@@ -219,7 +219,12 @@ export const ThoughtsSection = ({ thoughts, onAddThought, onUpdateThought, onDel
             />
           </div>
           
-          <Select value={filterMood} onValueChange={(value: any) => setFilterMood(value)}>
+            <Select
+              value={filterMood}
+              onValueChange={(value: 'all' | 'positive' | 'neutral' | 'negative') =>
+                setFilterMood(value)
+              }
+            >
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>
