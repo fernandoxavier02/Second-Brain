@@ -220,7 +220,12 @@ export const TasksSection = ({ tasks, onAddTask, onUpdateTask, onDeleteTask }: T
             />
           </div>
           
-          <Select value={filterStatus} onValueChange={(value: any) => setFilterStatus(value)}>
+          <Select
+            value={filterStatus}
+            onValueChange={(value: 'all' | 'pending' | 'completed') =>
+              setFilterStatus(value)
+            }
+          >
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>
@@ -231,7 +236,12 @@ export const TasksSection = ({ tasks, onAddTask, onUpdateTask, onDeleteTask }: T
             </SelectContent>
           </Select>
           
-          <Select value={filterPriority} onValueChange={(value: any) => setFilterPriority(value)}>
+          <Select
+            value={filterPriority}
+            onValueChange={(value: 'all' | 'low' | 'medium' | 'high') =>
+              setFilterPriority(value)
+            }
+          >
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>
@@ -278,7 +288,12 @@ export const TasksSection = ({ tasks, onAddTask, onUpdateTask, onDeleteTask }: T
                   {/* Priority Selection */}
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Prioridade</label>
-                    <Select value={newTask.priority} onValueChange={(value: any) => setNewTask(prev => ({ ...prev, priority: value }))}>
+                    <Select
+                      value={newTask.priority}
+                      onValueChange={(value: Task['priority']) =>
+                        setNewTask(prev => ({ ...prev, priority: value }))
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>

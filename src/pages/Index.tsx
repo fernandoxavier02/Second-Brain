@@ -18,6 +18,7 @@ import { useMeetings, type Meeting } from '@/hooks/useMeetings';
 import { useNotes } from '@/hooks/useNotes';
 import { useTasks } from '@/hooks/useTasks';
 import { useThoughts } from '@/hooks/useThoughts';
+import type { Task } from '@/types/notes';
 import { LoginScreen } from '@/components/LoginScreen';
 
 const Index = () => {
@@ -128,33 +129,67 @@ const Index = () => {
     setSelectedMeeting(null);
   };
 
-  const handleSmartContentCreated = async (type: 'note' | 'task' | 'thought', content: any) => {
+  interface NotePayload {
+    title: string
+    content: string
+    tags?: string[]
+    color?: string
+    pinned?: boolean
+  }
+
+  interface TaskPayload {
+    title: string
+    description?: string
+    completed?: boolean
+    priority?: string
+    tags?: string[]
+  }
+
+  interface ThoughtPayload {
+    content: string
+    mood?: string
+    tags?: string[]
+  }
+
+  const handleSmartContentCreated = async (
+    type: 'note' | 'task' | 'thought',
+    content: Record<string, unknown>
+  ) => {
     try {
       switch (type) {
         case 'note':
-          await addNote({
-            title: content.title,
-            content: content.content,
-            tags: content.tags || [],
-            color: content.color,
-            pinned: false
-          });
+          {
+            const note = content as NotePayload
+            await addNote({
+              title: note.title,
+              content: note.content,
+              tags: note.tags || [],
+              color: note.color,
+              pinned: false,
+            })
+          }
           break;
         case 'task':
-          await addTask({
-            title: content.title,
-            description: content.description,
-            completed: content.completed || false,
-            priority: content.priority || 'medium',
-            tags: content.tags || []
-          });
+          {
+            const task = content as TaskPayload
+            await addTask({
+              title: task.title,
+              description: task.description,
+              completed: task.completed || false,
+              priority: (task.priority as Task['priority']) || 'medium',
+              tags: task.tags || [],
+            })
+          }
           break;
         case 'thought':
-          await addThought({
-            content: content.content,
-            mood: content.mood,
-            tags: content.tags || []
-          });
+          {
+            const thought = content as ThoughtPayload
+            await addThought({
+              content: thought.content,
+              mood: thought.mood,
+              tags: thought.tags || [],
+            })
+          }
           break;
       }
       setShowSmartRecorder(false);

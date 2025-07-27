@@ -8,8 +8,13 @@ import { Mic, Square, Play, Pause, Brain, Loader2 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
+type SmartContent = Record<string, unknown>;
+
 interface SmartRecorderProps {
-  onContentCreated: (type: 'note' | 'task' | 'thought', content: any) => void;
+  onContentCreated: (
+    type: 'note' | 'task' | 'thought',
+    content: SmartContent
+  ) => void;
 }
 
 type RecordingType = 'note' | 'task' | 'thought';
